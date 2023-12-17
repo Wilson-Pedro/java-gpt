@@ -27,9 +27,20 @@ public class ResponseFactory {
 		return formartarString(resposta);
 	}
 	
-	public void imprimir(CompletionRequest request) {
-		System.out.println(openAiService.createCompletion(request).getChoices());
+	public String gerarTraducao(String pergunta) {
+
+		CompletionRequest request = CompletionRequest.builder()
+				.model("text-davinci-003")
+				.prompt("Traduza para português essa frase: " + pergunta)
+				.maxTokens(2000)
+				.temperature(0.7)
+				.build();
+		
+		String resposta = openAiService.createCompletion(request).getChoices().toString();
+		
+		return formartarString(resposta);
 	}
+	
 
 	private String formartarString(String resposta) {
 		String removerInicio = "[CompletionChoice(text=\n\n";

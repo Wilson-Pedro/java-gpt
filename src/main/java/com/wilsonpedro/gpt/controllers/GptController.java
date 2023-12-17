@@ -18,10 +18,19 @@ public class GptController {
 	@Autowired
 	ResponseFactory responseFactory;
 	
-	@PostMapping
+	@PostMapping("/pergunta")
 	public ResponseEntity perguntarAoGpt(@RequestBody PerguntaDTO pergunta) {
 		
 		String obj = responseFactory.gerarResposta(pergunta.getPergunta());
+		RespostaDTO resposta = new RespostaDTO(obj);
+		
+		return ResponseEntity.ok(resposta);
+	}
+	
+	@PostMapping("/traducao")
+	public ResponseEntity traduzirTextoEmIngles(@RequestBody PerguntaDTO pergunta) {
+		
+		String obj = responseFactory.gerarTraducao(pergunta.getPergunta());
 		RespostaDTO resposta = new RespostaDTO(obj);
 		
 		return ResponseEntity.ok(resposta);
