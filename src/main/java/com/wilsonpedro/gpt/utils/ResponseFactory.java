@@ -9,11 +9,11 @@ import com.theokanning.openai.completion.CompletionRequest;
 @Component
 public class ResponseFactory {
 	
-	private static final String API_KEY = "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";
+	private static final String API_KEY = "";
 
 	OpenAiService openAiService = new OpenAiService(API_KEY);
 	
-	public Object gerarResposta(String pergunta) {
+	public String gerarResposta(String pergunta) {
 
 		CompletionRequest request = CompletionRequest.builder()
 				.model("text-davinci-003")
@@ -22,14 +22,23 @@ public class ResponseFactory {
 				.temperature(0.7)
 				.build();
 		
-		Object obj = openAiService.createCompletion(request).getChoices();
+		String resposta = openAiService.createCompletion(request).getChoices().toString();
 		
-		return obj;
+		return formartarString(resposta);
 	}
 	
 	public void imprimir(CompletionRequest request) {
 		System.out.println(openAiService.createCompletion(request).getChoices());
 	}
 
+	private String formartarString(String resposta) {
+		String removerInicio = "[CompletionChoice(text=\n\n";
+		String removerFInal = ", index=0, logprobs=null, finish_reason=stop)]";
+		
+		resposta = resposta.replace(removerInicio, "");
+		resposta = resposta.replace(removerFInal, "");
+		
+		return resposta;
+	}
 }
 

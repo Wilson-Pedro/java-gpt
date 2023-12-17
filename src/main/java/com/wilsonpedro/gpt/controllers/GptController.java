@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wilsonpedro.gpt.dtos.PerguntaDTO;
+import com.wilsonpedro.gpt.dtos.RespostaDTO;
 import com.wilsonpedro.gpt.utils.ResponseFactory;
 
 @RestController
@@ -20,8 +21,9 @@ public class GptController {
 	@PostMapping
 	public ResponseEntity perguntarAoGpt(@RequestBody PerguntaDTO pergunta) {
 		
-		Object obj = responseFactory.gerarResposta(pergunta.getPergunta());
+		String obj = responseFactory.gerarResposta(pergunta.getPergunta());
+		RespostaDTO resposta = new RespostaDTO(obj);
 		
-		return ResponseEntity.ok(obj);
+		return ResponseEntity.ok(resposta);
 	}
 }
