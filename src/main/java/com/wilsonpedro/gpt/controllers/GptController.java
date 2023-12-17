@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.wilsonpedro.gpt.dtos.PerguntaDTO;
 import com.wilsonpedro.gpt.dtos.RespostaDTO;
-import com.wilsonpedro.gpt.utils.ResponseFactory;
+import com.wilsonpedro.gpt.responses.ResponseFactory;
 
 @RestController
 @RequestMapping("/gpt")
