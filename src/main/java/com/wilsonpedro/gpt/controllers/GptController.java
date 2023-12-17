@@ -1,34 +1,26 @@
 package com.wilsonpedro.gpt.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.theokanning.openai.OpenAiService;
-import com.theokanning.openai.completion.CompletionRequest;
 import com.wilsonpedro.gpt.dtos.PerguntaDTO;
+import com.wilsonpedro.gpt.utils.ResponseFactory;
 
 @RestController
 @RequestMapping("/gpt")
 public class GptController {
 	
-	private static final String API_KEY = "";
-	
-	OpenAiService openAiService = new OpenAiService(API_KEY);
+	@Autowired
+	ResponseFactory responseFactory;
 	
 	@PostMapping
 	public ResponseEntity perguntarAoGpt(@RequestBody PerguntaDTO pergunta) {
 		
-		CompletionRequest request = CompletionRequest.builder()
-				.model("text-davinci-003")
-				.prompt(pergunta.getPergunta())
-				.maxTokens(100)
-				.temperature(0.7)
-				.build();
-		
-		Object obj = openAiService.createCompletion(request).getChoices();
+		Object obj = responseFactory.gerarResposta(pergunta.getPergunta());
 		
 		return ResponseEntity.ok(obj);
 	}
